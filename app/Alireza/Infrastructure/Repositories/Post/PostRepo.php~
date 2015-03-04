@@ -1,0 +1,54 @@
+<?php
+
+namespace Alireza\Infrastructure\Repositories\Post;
+use Doctrine\ORM\EntityManagerInterface as EntityManager;
+use Alireza\Domain\Entities\Post;
+
+class PostRepo
+{
+    /**
+     * @var EntityManager
+     */
+    private $em;
+    /**
+     * @var string
+     */
+    private $class;
+
+    public function __construct(EntityManager $em)
+    {
+        $this->em    = $em;
+        $this->class = 'Alireza\Domain\Entities\Post';
+    }
+
+    public function create(Post $post)
+    {
+        $this->em->persist($post);
+        $this->em->flush();
+    }
+
+    public function update(Post $post,$data)
+    {
+        $news->setTitle($data['title']);
+        $news->setBody($data['body']);
+        $this->em->persist($post);
+        $this->em->flush();
+    }
+
+    public function PostOfId($id)
+    {
+        return $this->em->getRepository($this->class)->findOneBy([
+            'id' => $id
+        ]);
+    }
+
+    /**
+     * create Post
+     * @return Post
+     */
+    public function perpare_data($data)
+    {
+        return new Post($data);
+    }
+
+}
